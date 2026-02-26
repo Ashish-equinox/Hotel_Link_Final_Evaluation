@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <%- include('partials/head') %>
+  <title>Dashboard</title>
+</head>
+
+<body class="min-h-screen flex flex-col bg-gray-900 text-gray-100">
+  <%- include('partials/navbar') %>
+
+  <main class="flex-grow p-6">
+    <h1 class="text-3xl font-bold text-white mb-6">Welcome, <%= user.firstName %>!</h1>
+
+    <h2 class="text-2xl font-semibold text-indigo-400 mb-4">Your Bookings</h2>
+
+    <% if (user.bookings && user.bookings.length > 0) { %>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <% user.bookings.forEach(booking => { %>
+          <div class="bg-gray-800 rounded-lg shadow-lg p-4 border border-gray-700 animate__animated animate__fadeInUp animate__faster transition-all duration-300">
+            <h3 class="text-xl font-bold text-white mb-2"><%= booking.hotelName %></h3>
+            <p class="text-gray-400"><strong>Check-In:</strong> <%= booking.checkIn %></p>
+            <p class="text-gray-400"><strong>Check-Out:</strong> <%= booking.checkOut %></p>
+            <p class="text-gray-400"><strong>Guests:</strong> <%= booking.guests %></p>
+            <p class="text-gray-400"><strong>Total:</strong> Rs.<%= booking.total %></p>
+            <form action="/cancel-booking" method="POST" style="padding-left:0;">
+              <input type="hidden" name="bookingIndex" value="<%= user.bookings.indexOf(booking) %>">
+              <button type="submit" class="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded-lg transition duration-300 mt-2 ml-0">Cancel Booking</button>
+            </form>
+          </div>
+        <% }); %>
+      </div>
+    <% } else { %>
+      <p class="text-gray-400">You have no bookings yet.</p>
+    <% } %>
+  </main>
+
+  <%- include('partials/footer') %>
+</body>
+
+</html>

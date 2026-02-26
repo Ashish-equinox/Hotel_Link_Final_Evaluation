@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('partials/head') %>
+</head>
+<body class="min-h-screen flex flex-col bg-gray-900 text-gray-100">
+  <%- include('partials/navbar') %>
+
+  <main class="flex-grow p-4">
+    <!-- Hero Section -->
+    <div class="relative mb-6">
+      <div class="absolute inset-0 bg-gradient-to-r from-[#6d83f2] to-[#8ecae6] opacity-80 rounded-xl"></div>
+      <img src="https://images.pexels.com/photos/1134176/pexels-photo-1134176.jpeg?auto=compress&cs=tinysrgb&w=1600" alt="About Us Featured" class="w-full h-80 object-cover object-center rounded-xl">
+      <div class="absolute inset-0 flex items-center justify-center rounded-xl">
+
+      </div>
+    </div>
+
+    <!-- About Content -->
+    <div class="bg-gray-800 rounded-xl shadow-lg p-8 mb-8 border border-gray-700">
+      <!-- Gray background for Our Story section in dark theme -->
+      <div class="max-w-4xl mx-auto">
+        <h2 class="text-2xl font-bold text-white mb-6">Our Story</h2>
+        <p class="text-white mb-6 leading-relaxed">
+          Founded in 2005, Hotel Link started with a simple mission: to connect travelers with exceptional accommodations around the world. What began as a small startup has grown into a global platform trusted by millions of users seeking unique and memorable stays.
+        </p>
+        <p class="text-white mb-8 leading-relaxed">
+          Throughout our journey, we've maintained our commitment to quality, authenticity, and personalized service. Every property featured on our platform undergoes a rigorous verification process to ensure it meets our high standards of excellence.
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+          <div class="text-center bg-white bg-opacity-20 p-4 rounded-xl">
+            <div class="text-white text-4xl font-bold mb-2">15+</div>
+            <p class="text-white">Years of Experience</p>
+          </div>
+          <div class="text-center bg-white bg-opacity-20 p-4 rounded-xl">
+            <div class="text-white text-4xl font-bold mb-2">10M+</div>
+            <p class="text-white">Happy Customers</p>
+          </div>
+          <div class="text-center bg-white bg-opacity-20 p-4 rounded-xl">
+            <div class="text-white text-4xl font-bold mb-2">50K+</div>
+            <p class="text-white">Properties Worldwide</p>
+          </div>
+        </div>
+
+        <h2 class="text-2xl font-bold text-white mb-6">Our Mission</h2>
+        <p class="text-white mb-8 leading-relaxed">
+          At Hotel Link, we believe that the right accommodation can transform a good trip into an unforgettable experience. Our mission is to make exceptional stays accessible to everyone, providing transparent information, competitive prices, and personalized recommendations tailored to each traveler's unique preferences.
+        </p>
+
+        <h2 class="text-2xl font-bold text-white mb-6">Our Team</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+          <div class="bg-white bg-opacity-20 rounded-xl p-6 text-center shadow-lg">
+            <div class="w-24 h-24 rounded-full overflow-hidden mx-auto mb-4 border-4 border-white">
+              <img src="/images/gunpreet.jpg" alt="Team Member" class="w-full h-full object-cover">
+            </div>
+            <h3 class="text-xl font-semibold text-white mb-1">Gunpreet Singh</h3>
+            <p class="text-white mb-2">Founder & CEO</p>
+            <p class="text-white text-sm">20+ years in hospitality with a passion for exceptional service and memorable experiences.</p>
+          </div>
+          <div class="bg-white bg-opacity-20 rounded-xl p-6 text-center shadow-lg">
+            <div class="w-24 h-24 rounded-full overflow-hidden mx-auto mb-4 border-4 border-white">
+              <img src="/images/Ashish.jpg" alt="Team Member" class="w-full h-full object-cover">
+            </div>
+            <h3 class="text-xl font-semibold text-white mb-1">Ashish Raj</h3>
+            <p class="text-white mb-2">CTO</p>
+            <p class="text-white text-sm">Tech innovator dedicated to creating seamless digital experiences for travelers worldwide.</p>
+          </div>
+          <div class="bg-white bg-opacity-20 rounded-xl p-6 text-center shadow-lg">
+            <div class="w-24 h-24 rounded-full overflow-hidden mx-auto mb-4 border-4 border-white">
+              <img src="/images/Chirayu.jpg" alt="Team Member" class="w-full h-full object-cover">
+            </div>
+            <h3 class="text-xl font-semibold text-white mb-1">Chirayu Mitra</h3>
+            <p class="text-white mb-2">Head of Partnerships</p>
+            <p class="text-white text-sm">Building relationships with exceptional properties around the globe to enhance our offerings.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Values Section -->
+    <div class="bg-gradient-to-r from-[#6d83f2] to-[#8ecae6] rounded-xl p-8 mb-8">
+      <h2 class="text-2xl font-bold text-white text-center mb-8">Our Values</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div class="bg-white bg-opacity-20 backdrop-blur-sm p-6 rounded-xl text-center shadow-lg transition-all duration-300 hover:shadow-xl hover:shadow-indigo-500/50">
+          <div class="bg-indigo-700 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
+          <h3 class="text-lg font-semibold text-white mb-2">Quality</h3>
+          <p class="text-white text-opacity-90">We never compromise on the quality of properties we feature.</p>
+        </div>
+        <div class="bg-white bg-opacity-20 backdrop-blur-sm p-6 rounded-xl text-center shadow-lg transition-all duration-300 hover:shadow-xl hover:shadow-indigo-500/50">
+          <div class="bg-indigo-700 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+            </svg>
+          </div>
+          <h3 class="text-lg font-semibold text-white mb-2">Innovation</h3>
+          <p class="text-white text-opacity-90">Constantly evolving our platform to enhance user experience.</p>
+        </div>
+        <div class="bg-white bg-opacity-20 backdrop-blur-sm p-6 rounded-xl text-center shadow-lg transition-all duration-300 hover:shadow-xl hover:shadow-indigo-500/50">
+          <div class="bg-indigo-700 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+            </svg>
+          </div>
+          <h3 class="text-lg font-semibold text-white mb-2">Community</h3>
+          <p class="text-white text-opacity-90">Building relationships between travelers and property owners.</p>
+        </div>
+        <div class="bg-white bg-opacity-20 backdrop-blur-sm p-6 rounded-xl text-center shadow-lg transition-all duration-300 hover:shadow-xl hover:shadow-indigo-500/50">
+          <div class="bg-indigo-700 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
+          <h3 class="text-lg font-semibold text-white mb-2">Sustainability</h3>
+          <p class="text-white text-opacity-90">Promoting eco-friendly practices in travel and hospitality.</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+
+  <%- include('partials/footer') %>
+
+  <script>
+    // Dark mode toggle functionality
+    document.addEventListener('DOMContentLoaded', function() {
+      const darkModeToggle = document.querySelector('.dark-mode-toggle');
+      if (darkModeToggle) {
+        darkModeToggle.addEventListener('click', function() {
+          // Toggle between dark/light mode 
+          alert('This site is already in dark mode by default!');
+        });
+      }
+    });
+  </script>
+</body>
+</html>

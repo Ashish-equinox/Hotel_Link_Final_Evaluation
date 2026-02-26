@@ -1,0 +1,990 @@
+/* Reset cursor globally to default */
+body, * {
+  cursor: default;
+}
+
+/* Only show pointer on interactive elements */
+button,
+a,
+[role="button"],
+.uiverse-theme-toggle,
+.theme-switch__container,
+.theme-switch__circle-container,
+input[type="checkbox"]#theme-toggle {
+  cursor: pointer;
+}
+
+/* Default: dark theme (uses existing Tailwind classes) */
+
+/* Light Theme Color Palette */
+:root {
+  --light-gradient-start: #6d83f2;
+  --light-gradient-end: #8ecae6;
+  --light-card-bg: rgba(255, 255, 255, 0.9);
+  --light-text-primary: #232946;
+  --light-text-secondary: #4f5d75;
+  --light-accent: #6d83f2;
+  --light-accent-hover: #5c6eee; /* Increased saturation for hover state */
+  --light-card-shadow: 0 8px 32px rgba(109, 131, 242, 0.15);
+  --light-card-shadow-hover: 0 12px 40px rgba(109, 131, 242, 0.45); /* Deeper shadow for hover */
+  --light-nav-shadow: 0 4px 20px rgba(109, 131, 242, 0.25); /* New gradient shadow for navbar */
+}
+
+/* Base Light Theme */
+.light-theme body {
+  background: linear-gradient(135deg, var(--light-gradient-start) 0%, var(--light-gradient-end) 100%) !important;
+  color: var(--light-text-primary);
+}
+
+/* Navigation with improved shadow */
+.light-theme nav {
+  background: var(--light-card-bg) !important;
+  border-bottom: 1px solid rgba(109, 131, 242, 0.2) !important;
+  box-shadow: var(--light-nav-shadow); /* Enhanced gradient shadow under navbar */
+  position: relative;
+  z-index: 10;
+}
+
+/* Add gradient shadow effect to navbar */
+.light-theme nav::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 0;
+  right: 0;
+  height: 10px;
+  background: linear-gradient(to bottom, 
+    rgba(109, 131, 242, 0.2) 0%, 
+    rgba(142, 202, 230, 0) 100%);
+  z-index: -1;
+}
+
+.light-theme nav a,
+.light-theme nav .text-white,
+.light-theme nav .text-gray-300 {
+  color: var(--light-text-primary) !important;
+}
+
+/* Improved hover state with more saturation */
+.light-theme nav .hover\:bg-gray-700:hover {
+  background: rgba(109, 131, 242, 0.15) !important; /* More saturated hover background */
+  color: var(--light-accent) !important; /* Text changes color on hover */
+  transform: translateY(-2px);
+  transition: all 0.2s ease-in-out;
+}
+
+.light-theme nav .bg-indigo-600,
+.light-theme nav .bg-indigo-700 {
+  background: linear-gradient(90deg, var(--light-gradient-start) 0%, var(--light-gradient-end) 100%) !important;
+  color: #fff !important;
+}
+
+/* Improved hover depth for buttons */
+.light-theme nav .hover\:bg-indigo-700:hover {
+  background: linear-gradient(90deg, var (--light-accent-hover) 0%, var(--light-accent) 100%) !important;
+  box-shadow: 0 4px 12px rgba(109, 131, 242, 0.4);
+  transform: translateY(-2px);
+  transition: all 0.2s ease;
+}
+
+/* Make signup button match login button in light mode */
+.light-theme nav a[href="/signup"],
+.light-theme nav a[href="/logout"] {
+  background: linear-gradient(90deg, var(--light-gradient-start) 0%, var(--light-gradient-end) 100%) !important;
+  color: #fff !important;
+  border: none !important;
+}
+
+.light-theme nav a[href="/signup"]:hover,
+.light-theme nav a[href="/logout"]:hover {
+  background: linear-gradient(90deg, var(--light-accent-hover) 0%, var(--light-accent) 100%) !important;
+  box-shadow: 0 4px 12px rgba(109, 131, 242, 0.4);
+  transform: translateY(-2px);
+  transition: all 0.2s ease;
+}
+
+/* Match login button hover effects to signup button in light mode */
+.light-theme nav a[href="/login"]:hover {
+  background: linear-gradient(90deg, var(--light-accent-hover) 0%, var(--light-accent) 100%) !important;
+  box-shadow: 0 4px 12px rgba(109, 131, 242, 0.4);
+  transform: translateY(-2px);
+  transition: all 0.2s ease;
+}
+
+/* Match dashboard button hover to logout button hover in light theme */
+.light-theme a[href="/dashboard"].bg-indigo-600:hover {
+  background: linear-gradient(90deg, var(--light-accent-hover) 0%, var(--light-accent) 100%) !important;
+  color: #fff !important;
+  box-shadow: 0 4px 12px rgba(109, 131, 242, 0.4);
+  transform: translateY(-2px);
+  transition: all 0.2s ease;
+}
+
+.light-theme nav .text-indigo-400 {
+  color: var(--light-accent) !important;
+}
+
+.light-theme nav .border-indigo-500 {
+  border-color: var(--light-accent) !important;
+}
+
+/* Fix for About page text color in dark theme (default) */
+.bg-white p.text-\[\#232946\], 
+.bg-white .text-\[\#232946\] {
+  color: white !important;
+}
+
+.bg-white h2.text-\[\#6d83f2\], 
+.bg-white h3.text-\[\#232946\] {
+  color: #6d83f2 !important;
+}
+
+.bg-white p.text-\[\#4f5d75\] {
+  color: #a0aec0 !important;
+}
+
+/* About page dark theme fix: make .bg-white section match dark theme */
+.bg-white.about-section-dark {
+  background: #1f2937 !important; /* Changed to match navbar gray color */
+  color: #e0e6ed !important;
+  border-color: #353a50 !important;
+}
+.bg-white.about-section-dark h2,
+.bg-white.about-section-dark h3 {
+  color: #8ecae6 !important;
+}
+.bg-white.about-section-dark p,
+.bg-white.about-section-dark li {
+  color: #e0e6ed !important;
+}
+.bg-white.about-section-dark .text-\[\#6d83f2\] {
+  color: #8ecae6 !important;
+}
+.bg-white.about-section-dark .text-\[\#4f5d75\] {
+  color: #a0aec0 !important;
+}
+
+/* Only apply the white text in light theme */
+.light-theme .bg-white p.text-\[\#232946\], 
+.light-theme .bg-white .text-\[\#232946\] {
+  color: #232946 !important;
+}
+
+.light-theme .bg-white h3.text-\[\#232946\] {
+  color: #232946 !important;
+}
+
+.light-theme .bg-white p.text-\[\#4f5d75\] {
+  color: #4f5d75 !important;
+}
+
+/* Only apply this in dark theme (not .light-theme) */
+.light-theme .bg-white.about-section-dark {
+  background: rgba(255,255,255,0.9) !important;
+  color: #232946 !important;
+  border-color: #6d83f2 !important;
+}
+.light-theme .bg-white.about-section-dark h2,
+.light-theme .bg-white.about-section-dark h3 {
+  color: #6d83f2 !important;
+}
+.light-theme .bg-white.about-section-dark p,
+.light-theme .bg-white.about-section-dark li {
+  color: #232946 !important;
+}
+.light-theme .bg-white.about-section-dark .text-\[\#6d83f2\] {
+  color: #6d83f2 !important;
+}
+.light-theme .bg-white.about-section-dark .text-\[\#4f5d75\] {
+  color: #4f5d75 !important;
+}
+
+/* Light Theme About Page Specific Styles */
+.light-theme .about-section-dark {
+  background: rgba(255,255,255,0.9) !important;
+  color: #232946 !important;
+  border-color: #6d83f2 !important;
+  box-shadow: var(--light-card-shadow) !important;
+}
+
+.light-theme .about-section-dark h2 {
+  color: var(--light-accent) !important;
+}
+
+.light-theme .about-section-dark p {
+  color: var(--light-text-primary) !important;
+}
+
+/* Light Theme Stats Cards */
+.light-theme .about-section-dark .bg-\[\#8ecae6\].bg-opacity-10 {
+  background-color: rgba(142, 202, 230, 0.1) !important;
+  border: 1px solid rgba(109, 131, 242, 0.1);
+  box-shadow: var(--light-card-shadow) !important;
+}
+
+.light-theme .about-section-dark .text-\[\#6d83f2\] {
+  color: var(--light-accent) !important;
+}
+
+.light-theme .about-section-dark .text-\[\#4f5d75\] {
+  color: var(--light-text-secondary) !important;
+}
+
+/* Light Theme Team Member Cards */
+.light-theme .about-section-dark .bg-\[\#232946\] {
+  background: linear-gradient(135deg, var(--light-gradient-start) 0%, var(--light-gradient-end) 100%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.2) !important;
+}
+
+.light-theme .about-section-dark .bg-\[\#232946\] h3,
+.light-theme .about-section-dark .bg-\[\#232946\] p {
+  color: white !important;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.light-theme .about-section-dark .bg-\[\#232946\]:hover {
+  transform: translateY(-4px);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 8px 30px rgba(109, 131, 242, 0.3) !important;
+}
+
+/* Light Theme Footer (already exists but making sure it's consistent) */
+.light-theme footer {
+  background: linear-gradient(90deg, var(--light-gradient-start) 0%, var(--light-gradient-end) 100%) !important;
+  color: #fff !important;
+}
+
+/* Footer */
+.light-theme footer {
+  background: linear-gradient(90deg, var(--light-gradient-start) 0%, var(--light-gradient-end) 100%) !important;
+  color: #fff !important;
+}
+
+.light-theme footer .text-white,
+.light-theme footer .text-gray-400,
+.light-theme footer .text-gray-300 {
+  color: #fff !important;
+}
+
+/* Cards and Content Areas */
+.light-theme .bg-gray-800,
+.light-theme .bg-gray-900,
+.light-theme .bg-gray-700 {
+  background: var(--light-card-bg) !important;
+  color: var(--light-text-primary) !important;
+  box-shadow: var(--light-card-shadow) !important;
+  border: 1px solid rgba(109, 131, 242, 0.1);
+}
+
+.light-theme .border-gray-700 {
+  border-color: rgba(109, 131, 242, 0.2) !important;
+}
+
+.light-theme .rounded-lg,
+.light-theme .rounded-xl {
+  border-radius: 1rem;
+}
+
+/* Card Hover Effects */
+.light-theme .group:hover {
+  box-shadow: var(--light-card-shadow-hover) !important;
+  transform: translateY(-4px) scale(1.03);
+  transition: box-shadow 0.3s, transform 0.3s;
+}
+
+.light-theme .group {
+  transition: box-shadow 0.3s, transform 0.3s;
+}
+
+/* Text Colors */
+.light-theme .text-white,
+.light-theme .text-gray-300 {
+  color: var(--light-text-primary) !important;
+}
+
+.light-theme .text-gray-400 {
+  color: var(--light-text-secondary) !important;
+}
+
+.light-theme .text-indigo-400,
+.light-theme .hover\:text-indigo-400:hover {
+  color: #000 !important;}
+
+/* Buttons and Accent Elements */
+.light-theme .bg-indigo-600,
+.light-theme .bg-indigo-700,
+.light-theme .bg-indigo-800 {
+  background: linear-gradient(90deg, var(--light-gradient-start) 0%, var(--light-gradient-end) 100%) !important;
+  color: #fff !important;
+}
+
+/* Ensure red buttons also have white text in light mode */
+.light-theme button.bg-red-600,
+.light-theme a.bg-red-600 { /* Covers buttons and <a> tags styled as buttons */
+  color: #fff !important;
+}
+
+.light-theme .hover\:bg-indigo-700:hover {
+  background: var(--light-accent-hover) !important;
+}
+
+.light-theme .border-indigo-500 {
+  border-color: var(--light-accent) !important;
+}
+
+/* Form Elements */
+.light-theme input,
+.light-theme textarea,
+.light-theme select {
+  background: rgba(255, 255, 255, 0.8) !important;
+  border-color: rgba(109, 131, 242, 0.3) !important;
+}
+
+.light-theme input:focus,
+.light-theme textarea:focus,
+.light-theme select:focus {
+  border-color: var(--light-accent) !important;
+  box-shadow: 0 0 0 3px rgba(109, 131, 242, 0.2) !important;
+}
+
+/* Icons and Decorative Elements */
+.light-theme .icon,
+.light-theme .feature-icon {
+  color: var(--light-accent) !important;
+  background: rgba(142, 202, 230, 0.2) !important;
+}
+
+/* Headings */
+.light-theme h1, 
+.light-theme h2, 
+.light-theme h3, 
+.light-theme h4, 
+light-theme h5, 
+light-theme h6 {
+  color: var(--light-text-primary) !important;
+}
+
+/* Other Elements */
+.light-theme .bg-opacity-80 {
+  background-color: rgba(255, 255, 255, 0.9) !important;
+}
+
+.light-theme .shadow-lg {
+  box-shadow: var(--light-card-shadow) !important;
+}
+
+/* Theme toggle overrides can remain the same */
+
+/* Uiverse theme toggle button styles */
+.uiverse-theme-toggle {
+  width: 48px;
+  height: 48px;
+  background: var(--uiverse-btn-bg, #23272f);
+  border-radius: 12px;
+  border: none;
+  box-shadow: 0 2px 8px 0 rgba(99,102,241,0.12), 0 1.5px 4px 0 rgba(0,0,0,0.10);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.3s, box-shadow 0.3s, transform 0.2s;
+  position: relative;
+  outline: none;
+  z-index: 10;
+}
+.uiverse-theme-toggle:active {
+  transform: scale(0.96);
+}
+.uiverse-theme-toggle:hover {
+  box-shadow: 0 4px 16px 0 #6366f1cc, 0 2px 8px 0 rgba(99,102,241,0.12);
+  background: var(--uiverse-btn-hover-bg, #282c34);
+}
+.uiverse-theme-toggle-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  font-size: 1.5rem;
+  transition: color 0.3s;
+}
+
+/* Light theme adjustments for the button */
+.light-theme .uiverse-theme-toggle {
+  background: #f3f4f6;
+  box-shadow: 0 2px 8px 0 #6366f122, 0 1.5px 4px 0 #0001;
+}
+.light-theme .uiverse-theme-toggle:hover {
+  background: #e0e7ef;
+  box-shadow: 0 4px 16px 0 #6366f1cc, 0 2px 8px 0 #6366f122;
+}
+.light-theme .uiverse-theme-toggle-icon {
+  color: #6366f1;
+}
+
+/* From Uiverse.io by Galahhad */
+.theme-switch {
+  --toggle-size: 20px;
+  --container-width: 3.5em;
+  --container-height: 2em;
+  --container-radius: 2em;
+  --container-light-bg: #3D7EAE;
+  --container-night-bg: #1D1F2C;
+  --circle-container-diameter: 1.7em;
+  --sun-moon-diameter: 1.2em;
+  --spot-color: #959DB1;
+  --circle-container-offset: calc((var(--circle-container-diameter) - var(--container-height)) / 2 * -1);
+  --stars-color: #fff;
+  --clouds-color: #F3FDFF;
+  --back-clouds-color: #AACADF;
+  --transition: .5s cubic-bezier(0, -0.02, 0.4, 1.25);
+  --circle-transition: .3s cubic-bezier(0, -0.02, 0.35, 1.17);
+}
+.theme-switch, .theme-switch *, .theme-switch *::before, .theme-switch *::after {
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-size: var(--toggle-size);
+}
+.theme-switch__container {
+  width: var(--container-width);
+  height: var(--container-height);
+  background-color: var(--container-light-bg);
+  border-radius: var(--container-radius);
+  overflow: hidden;
+  cursor: pointer;
+  -webkit-box-shadow: 0em -0.062em 0.062em rgba(0, 0, 0, 0.25), 0em 0.062em 0.125em rgba(255, 255, 255, 0.94);
+  box-shadow: 0em -0.062em 0.062em rgba(0, 0, 0, 0.25), 0em 0.062em 0.125em rgba(255, 255, 255, 0.94);
+  -webkit-transition: var(--transition);
+  -o-transition: var(--transition);
+  transition: var(--transition);
+  position: relative;
+}
+.theme-switch__container::before {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  -webkit-box-shadow: 0em 0.05em 0.187em rgba(0, 0, 0, 0.25) inset, 0em 0.05em 0.187em rgba(0, 0, 0, 0.25) inset;
+  box-shadow: 0em 0.05em 0.187em rgba(0, 0, 0, 0.25) inset, 0em 0.05em 0.187em rgba(0, 0, 0, 0.25) inset;
+  border-radius: var(--container-radius)
+}
+.theme-switch__checkbox {
+  display: none;
+}
+.theme-switch__circle-container {
+  width: var(--circle-container-diameter);
+  height: var(--circle-container-diameter);
+  background-color: rgba(255, 255, 255, 0.1);
+  position: absolute;
+  left: var(--circle-container-offset);
+  top: var(--circle-container-offset);
+  border-radius: var(--container-radius);
+  -webkit-box-shadow: inset 0 0 0 3.375em rgba(255, 255, 255, 0.1), inset 0 0 0 3.375em rgba(255, 255, 255, 0.1), 0 0 0 0.625em rgba(255, 255, 255, 0.1), 0 0 0 1.25em rgba(255, 255, 255, 0.1);
+  box-shadow: inset 0 0 0 3.375em rgba(255, 255, 255, 0.1), inset 0 0 0 3.375em rgba(255, 255, 255, 0.1), 0 0 0 0.625em rgba(255, 255, 255, 0.1), 0 0 0 1.25em rgba(255, 255, 255, 0.1);
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-transition: var(--circle-transition);
+  -o-transition: var(--circle-transition);
+  transition: var(--circle-transition);
+  pointer-events: none;
+}
+.theme-switch__sun-moon-container {
+  pointer-events: auto;
+  position: relative;
+  z-index: 2;
+  width: var(--sun-moon-diameter);
+  height: var(--sun-moon-diameter);
+  margin: auto;
+  border-radius: var(--container-radius);
+  background: radial-gradient(circle at 60% 40%, #ffe066 60%, #ecca2f 100%);
+  box-shadow: 0 0 0.5em 0.1em #ffe06699, 0.062em 0.062em 0.062em 0em rgba(254,255,239,0.61) inset, 0em -0.062em 0.062em 0em #a1872a inset;
+  filter: drop-shadow(0.062em 0.125em 0.125em rgba(0, 0, 0, 0.25)) drop-shadow(0em 0.062em 0.125em rgba(0, 0, 0, 0.25));
+  overflow: hidden;
+  transition: var(--transition);
+  border: 2px solid #fff; /* Add white border for sun visibility */
+}
+.theme-switch__moon {
+  transform: translateX(100%);
+  width: 100%;
+  height: 100%;
+  background: #c4c9d1;
+  border-radius: inherit;
+  box-shadow: 0.062em 0.062em 0.062em 0em rgba(254, 255, 239, 0.61) inset, 0em -0.062em 0.062em 0em #969696 inset;
+  transition: var(--transition);
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.theme-switch__checkbox:not(:checked) + .theme-switch__container .theme-switch__moon {
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(100%);
+}
+.theme-switch__checkbox:checked + .theme-switch__container .theme-switch__moon {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateX(0);
+}
+.theme-switch__spot {
+  position: absolute;
+  top: 0.75em;
+  left: 0.312em;
+  width: 0.75em;
+  height: 0.75em;
+  border-radius: var(--container-radius);
+  background-color: var(--spot-color);
+  -webkit-box-shadow: 0em 0.0312em 0.062em rgba(0, 0, 0, 0.25) inset;
+  box-shadow: 0em 0.0312em 0.062em rgba(0, 0, 0, 0.25) inset;
+}
+.theme-switch__spot:nth-of-type(2) {
+  width: 0.375em;
+  height: 0.375em;
+  top: 0.937em;
+  left: 1.375em;
+}
+.theme-switch__spot:nth-last-of-type(3) {
+  width: 0.25em;
+  height: 0.25em;
+  top: 0.312em;
+  left: 0.812em;
+}
+.theme-switch__clouds {
+  width: 1.25em;
+  height: 1.25em;
+  background-color: var(--clouds-color);
+  border-radius: var(--container-radius);
+  position: absolute;
+  bottom: -0.625em;
+  left: 0.312em;
+  -webkit-box-shadow: 0.937em 0.312em var(--clouds-color), -0.312em -0.312em var(--back-clouds-color), 1.437em 0.375em var(--clouds-color), 0.5em -0.125em var(--back-clouds-color), 2.187em 0 var(--clouds-color), 1.25em -0.062em var(--back-clouds-color), 2.937em 0.312em var(--clouds-color), 2em -0.312em var(--back-clouds-color), 3.625em -0.062em var(--clouds-color), 2.625em 0em var(--back-clouds-color), 4.5em -0.312em var(--clouds-color), 3.375em -0.437em var(--back-clouds-color), 4.625em -1.75em 0 0.437em var(--clouds-color), 4em -0.625em var(--back-clouds-color), 4.125em -2.125em 0 0.437em var(--back-clouds-color);
+  box-shadow: 0.937em 0.312em var(--clouds-color), -0.312em -0.312em var(--back-clouds-color), 1.437em 0.375em var(--clouds-color), 0.5em -0.125em var(--back-clouds-color), 2.187em 0 var(--clouds-color), 1.25em -0.062em var(--back-clouds-color), 2.937em 0.312em var(--clouds-color), 2em -0.312em var(--back-clouds-color), 3.625em -0.062em var(--clouds-color), 2.625em 0em var(--back-clouds-color), 4.5em -0.312em var(--clouds-color), 3.375em -0.437em var(--back-clouds-color), 4.625em -1.75em 0 0.437em var(--clouds-color), 4em -0.625em var(--back-clouds-color), 4.125em -2.125em 0 0.437em var(--back-clouds-color);
+  -webkit-transition: 0.5s cubic-bezier(0, -0.02, 0.4, 1.25);
+  -o-transition: 0.5s cubic-bezier(0, -0.02, 0.4, 1.25);
+  transition: 0.5s cubic-bezier(0, -0.02, 0.4, 1.25);
+}
+.theme-switch__stars-container {
+  position: absolute;
+  color: var(--stars-color);
+  top: -100%;
+  left: 0.312em;
+  width: 2.75em;
+  height: auto;
+  -webkit-transition: var(--transition);
+  -o-transition: var(--transition);
+  transition: var(--transition);
+}
+/* actions */
+.theme-switch__checkbox:checked + .theme-switch__container {
+  background-color: var(--container-night-bg);
+}
+.theme-switch__checkbox:checked + .theme-switch__container .theme-switch__circle-container {
+  left: calc(100% - var(--circle-container-offset) - var(--circle-container-diameter));
+}
+.theme-switch__checkbox:checked + .theme-switch__container .theme-switch__circle-container:hover {
+  left: calc(100% - var(--circle-container-offset) - var(--circle-container-diameter) - 0.187em)
+}
+.theme-switch__circle-container:hover {
+  left: calc(var(--circle-container-offset) + 0.187em);
+}
+.theme-switch__checkbox:checked + .theme-switch__container .theme-switch__moon {
+  transform: translate(0);
+}
+.theme-switch__checkbox:checked + .theme-switch__container .theme-switch__clouds {
+  bottom: -4.062em;
+}
+.theme-switch__checkbox:checked + .theme-switch__container .theme-switch__stars-container {
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
+}
+
+/* Fix login and signup page header gradients in light mode */
+.light-theme .from-indigo-800.to-purple-800,
+.light-theme .bg-gradient-to-r.from-indigo-800.to-purple-800 {
+  background: linear-gradient(90deg, var(--light-gradient-start) 0%, var(--light-gradient-end) 100%) !important;
+}
+
+.light-theme .bg-indigo-700 {
+  background: var(--light-accent) !important;
+}
+
+.light-theme .text-indigo-200 {
+  color: rgba(255, 255, 255, 0.9) !important; /* Make subtext more readable on the gradient */
+}
+
+/* Input focus styles for login/signup forms in light mode */
+.light-theme .focus\:ring-indigo-500:focus,
+.light-theme input:focus {
+  --tw-ring-color: var(--light-accent) !important;
+  border-color: var(--light-accent) !important;
+}
+
+/* Login/signup buttons */
+.light-theme .bg-indigo-600 {
+  background: linear-gradient(90deg, var(--light-gradient-start) 0%, var(--light-gradient-end) 100%) !important;
+}
+
+.light-theme .bg-indigo-600:hover {
+  background: linear-gradient(90deg, var(--light-accent-hover) 0%, var(--light-accent) 100%) !important;
+  box-shadow: 0 4px 12px rgba(109, 131, 242, 0.4);
+  transform: translateY(-2px);
+  transition: all 0.2s ease;
+}
+
+/* Secondary action buttons in login/signup pages with improved hover effect */
+.light-theme a[href="/signup"].bg-gray-700,
+.light-theme a[href="/login"].bg-gray-700 {
+  background: rgba(142, 202, 230, 0.2) !important;
+  border: 1px solid rgba(109, 131, 242, 0.3) !important;
+  color: var(--light-text-primary) !important;
+}
+
+.light-theme a[href="/signup"].bg-gray-700:hover,
+.light-theme a[href="/login"].bg-gray-700:hover {
+  background: linear-gradient(90deg, rgba(109, 131, 242, 0.15) 0%, rgba(142, 202, 230, 0.25) 100%) !important;
+  border-color: var(--light-accent) !important;
+  color: var(--light-accent) !important;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(109, 131, 242, 0.2);
+}
+
+/* Dark theme hover effects for secondary action buttons */
+a[href="/signup"].bg-gray-700:hover,
+a[href="/login"].bg-gray-700:hover {
+  background: linear-gradient(90deg, rgba(79, 70, 229, 0.3) 0%, rgba(124, 58, 237, 0.3) 100%) !important;
+  border: 1px solid rgba(139, 92, 246, 0.5) !important;
+  color: white !important;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Fix for Our Story section in light theme */
+.light-theme .about-section-dark {
+  background: rgba(255,255,255,0.9) !important;
+  color: #232946 !important;
+  border-color: #6d83f2 !important;
+  box-shadow: var(--light-card-shadow) !important;
+}
+
+/* Ensure text readability in Our Story section */
+.light-theme .about-section-dark h2 {
+  color: var(--light-accent) !important;
+}
+
+.light-theme .about-section-dark p {
+  color: var(--light-text-primary) !important;
+}
+
+/* Stats cards in Our Story section */
+.light-theme .about-section-dark .bg-\[\#8ecae6\].bg-opacity-10 {
+  background: rgba(255, 255, 255, 0.2) !important;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* Light theme card shadows for feature cards and value cards */
+.light-theme .bg-gray-800.p-6.rounded-xl.border.border-gray-700.text-center:hover,
+.light-theme .bg-white.bg-opacity-20.backdrop-blur-sm.p-6.rounded-xl.text-center:hover {
+  box-shadow: 0 8px 32px 0 rgba(99, 102, 241, 0.6) !important;
+  transform: translateY(-5px);
+  transition: all 0.3s ease;
+}
+
+.light-theme .bg-gray-800.p-6.rounded-xl.border.border-gray-700.text-center,
+.light-theme .bg-white.bg-opacity-20.backdrop-blur-sm.p-6.rounded-xl.text-center {
+  transition: all 0.3s ease;
+}
+
+
+/* Fix for hotel cards in light theme to ensure shadows appear properly */
+.light-theme .rounded-xl.shadow-lg.overflow-hidden.border.border-gray-700:hover {
+  box-shadow: 0 8px 32px 0 rgba(99, 102, 241, 0.6) !important;
+  transform: translateY(-5px);
+  border-color: #6366f1 !important;
+}
+
+/* Ensure smooth transitions for all cards */
+.light-theme .rounded-xl.shadow-lg.overflow-hidden.border.border-gray-700 {
+  transition: all 0.3s ease;
+}
+
+.bg-white.bg-opacity-20.backdrop-blur-sm.p-6.rounded-xl.text-center.shadow-lg:hover {
+  box-shadow: 0 8px 32px 0 rgba(99, 102, 241, 0.6) !important;
+  transform: translateY(-5px);
+}
+
+
+/* Prevent these styles from applying in light theme */
+.light-theme .bg-white.bg-opacity-30.w-16.h-16.rounded-full {
+  background: rgba(255, 255, 255, 0.3) !important;
+}
+
+/* LIGHT THEME - About Us and Contact Us page specific styles */
+
+/* About page - Our Story section in light theme - restore blue gradient */
+.light-theme .bg-gray-800.rounded-xl.shadow-lg.p-8.mb-8.border.border-gray-700 {
+  background: linear-gradient(135deg, #8ecae6, #b3d9f7) !important;
+  border-color: #6d83f2 !important;
+}
+
+/* Contact page - FAQ section in light theme - restore blue gradient */
+.light-theme .bg-gray-800.rounded-xl.shadow-lg.p-8.mb-8.border.border-gray-700:nth-of-type(4) {
+  background: linear-gradient(135deg, #6d83f2, #8ecae6) !important;
+  color: white !important;
+  border: none !important;
+}
+
+/* FAQ section individual cards */
+.light-theme .bg-gray-700.p-6.rounded-xl.shadow-md {
+  background-color: rgba(255, 255, 255, 0.2) !important;
+  backdrop-filter: blur(5px);
+}
+
+.light-theme .bg-gray-700.p-6.rounded-xl.shadow-md h3 {
+  color: white !important;
+}
+
+.light-theme .bg-gray-700.p-6.rounded-xl.shadow-md p {
+  color: rgba(255, 255, 255, 0.9) !important;
+}
+
+/* Ensure text in Our Story section is visible in light theme */
+.light-theme .bg-gray-800.rounded-xl h2.text-white,
+.light-theme .bg-gray-800.rounded-xl p.text-white {
+  color: #232946 !important;
+}
+
+/* Keep the original indigo-700 background in dark mode */
+body:not(.light-theme) .bg-indigo-700.w-16.h-16.rounded-full {
+  background: #4338ca !important; /* indigo-700 color */
+}
+
+/* Keep white bg-opacity-30 style in dark mode */
+body:not(.light-theme) .bg-white.bg-opacity-30.w-16.h-16.rounded-full {
+  background: rgba(255, 255, 255, 0.3) !important;
+}
+
+/* Remove the blue gradient overlay on the hero image in light theme */
+.light-theme .absolute.inset-0.bg-gradient-to-r.from-\[\#6d83f2\].to-\[\#8ecae6\].opacity-80.rounded-xl {
+  opacity: 0 !important; 
+  background: none !important;
+}
+
+/* DARK MODE SPECIFIC FIXES - Do not modify light theme */
+
+/* 1. Remove blue filter from hero image in About page ONLY in dark mode */
+body:not(.light-theme) .absolute.inset-0.bg-gradient-to-r.from-\[\#6d83f2\].to-\[\#8ecae6\].opacity-80.rounded-xl {
+  opacity: 0;
+}
+
+/* Redesigned Our Values section for both light and dark themes */
+
+/* Dark Theme Styles */
+.dark-theme body {
+  background: #1a202c !important; /* Dark background */
+  color: #e2e8f0; /* Light text */
+}
+
+.dark-theme nav {
+  background: #2d3748 !important; /* Dark navbar background */
+  border-bottom: 1px solid #4a5568 !important; /* Dark border */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25); /* Subtle shadow */
+}
+
+.dark-theme nav a,
+.dark-theme nav .text-white,
+.dark-theme nav .text-gray-300 {
+  color: #e2e8f0 !important; /* Light text for links */
+}
+
+.dark-theme nav .hover\:bg-gray-700:hover {
+  background: rgba(255, 255, 255, 0.1) !important; /* Subtle hover effect */
+  color: #63b3ed !important; /* Accent color on hover */
+}
+
+.dark-theme nav .bg-indigo-600,
+.dark-theme nav .bg-indigo-700 {
+  background: #4c51bf !important; /* Dark indigo background */
+  color: #fff !important;
+}
+
+.dark-theme nav .hover\:bg-indigo-700:hover {
+  background: #5a67d8 !important; /* Slightly lighter indigo */
+  box-shadow: 0 4px 12px rgba(90, 103, 216, 0.4);
+  transform: translateY(-2px);
+  transition: all 0.2s ease;
+}
+
+.dark-theme footer {
+  background: #2d3748 !important; /* Dark footer background */
+  color: #e2e8f0 !important; /* Light text */
+}
+
+/* Fix card shadow and hover for hotel cards in dark mode only */
+.bg-gray-800,
+.bg-gray-900,
+.bg-gray-700 {
+  box-shadow: 0 8px 32px 0 rgba(0,0,0,0.25), 0 1.5px 8px 0 rgba(80,80,255,0.10);
+  transition: box-shadow 0.3s, background 0.3s;
+}
+.bg-gray-800:hover,
+.bg-gray-900:hover,
+.bg-gray-700:hover {
+  box-shadow: 0 16px 48px 0 rgba(80,80,255,0.18), 0 4px 16px 0 rgba(80,80,255,0.12);
+  background: rgba(40, 50, 70, 0.97);
+  transition: box-shadow 0.3s, background 0.3s;
+  cursor: pointer;
+}
+
+/* Fix shadow and hover for 'Why Choose Hotel Link' cards in dark mode only */
+.home-feature-card {
+  background: rgba(31, 41, 55, 0.95);
+  border-radius: 16px;
+  box-shadow: 0 8px 32px 0 rgba(0,0,0,0.18), 0 1.5px 8px 0 rgba(80,80,255,0.08);
+  transition: box-shadow 0.3s, background 0.3s;
+}
+.home-feature-card:hover {
+  box-shadow: 0 16px 48px 0 rgba(80,80,255,0.18), 0 4px 16px 0 rgba(80,80,255,0.12);
+  background: rgba(40, 50, 70, 0.97);
+  transition: box-shadow 0.3s, background 0.3s;
+  cursor: pointer;
+}
+
+/* Light theme payment card improvements */
+.light-theme .payment-card {
+  background: rgba(255, 255, 255, 0.95) !important;
+  border: 1px solid #b3c6f7 !important;
+  border-radius: 12px;
+  padding: 20px;
+  color: #232946 !important;
+  box-shadow: 0 4px 24px 0 rgba(109, 131, 242, 0.10) !important;
+}
+
+.light-theme .payment-card input,
+.light-theme .payment-card select {
+  background: #f3f4f6 !important;
+  color: #222 !important;
+  border: 1px solid #cbd5e1 !important;
+  border-radius: 8px !important;
+}
+
+/* Add placeholder color for light theme inputs */
+.light-theme .payment-card input::placeholder {
+  color: #6b7280; /* Tailwind's gray-500 */
+}
+
+.light-theme .payment-card input:focus,
+.light-theme .payment-card select:focus {
+  background: #fff !important;
+  border-color: #6366f1 !important;
+  box-shadow: 0 0 0 2px #6366f1, 0 1.5px 8px 0 rgba(99,102,241,0.10) !important;
+}
+
+.light-theme .payment-card label {
+  color: #4f5d75 !important;
+}
+
+.light-theme .payment-card h2,
+.light-theme .payment-card h1 {
+  color: #232946 !important;
+}
+
+.light-theme .payment-card .text-white {
+  color: #232946 !important;
+}
+
+/* Light theme payment summary improvements */
+.light-theme .order-summary, .light-theme .payment-summary {
+  background: #f3f6fa !important;
+  border: 1px solid #b3c6f7 !important;
+  border-radius: 12px;
+  color: #232946 !important;
+  box-shadow: 0 4px 24px 0 rgba(109, 131, 242, 0.08) !important;
+}
+
+.light-theme .order-summary h2,
+.light-theme .order-summary h1,
+.light-theme .payment-summary h2,
+.light-theme .payment-summary h1 {
+  color: #232946 !important;
+}
+
+.light-theme .order-summary label,
+.light-theme .payment-summary label {
+  color: #4f5d75 !important;
+}
+
+.light-theme .order-summary .text-white,
+.light-theme .payment-summary .text-white {
+  color: #232946 !important;
+}
+
+.light-theme .order-summary .text-indigo-400,
+.light-theme .payment-summary .text-indigo-400 {
+  color: var(--light-accent) !important;
+}
+
+.light-theme .order-summary .text-gray-400,
+.light-theme .payment-summary .text-gray-400 {
+  color: #4f5d75 !important;
+}
+
+/* Light Theme Payment Page Specific Styles */
+.light-theme .payment-page-title {
+  color: var(--light-text-primary) !important;
+}
+
+.light-theme .payment-card,
+.light-theme .payment-summary {
+  background: #fff !important;
+  border: 1.5px solid #e0e7ef !important;
+  box-shadow: 0 8px 32px 0 rgba(99,102,241,0.13), 0 1.5px 8px 0 rgba(99,102,241,0.08) !important;
+  border-radius: 16px !important;
+  transition: box-shadow 0.3s, background 0.3s !important; /* Removed transform from transition */
+}
+
+.light-theme .payment-card:hover,
+.light-theme .payment-summary:hover {
+  background: #f8fafc !important;
+  box-shadow: 0 24px 64px 0 rgba(99,102,241,0.22), 0 12px 32px 0 rgba(99,102,241,0.16) !important;
+  transform: none !important; /* Ensures no transform is applied on hover */
+  z-index: 3;
+  cursor: pointer;
+}
+
+.light-theme .payment-card input,
+.light-theme .payment-card select {
+  background: #f3f4f6 !important;
+  color: #222 !important;
+  border: 1px solid #cbd5e1 !important;
+  border-radius: 8px !important;
+}
+
+.light-theme .payment-card input:focus,
+.light-theme .payment-card select:focus {
+  background: #fff !important;
+  border-color: #6366f1 !important;
+  box-shadow: 0 0 0 2px #6366f1, 0 1.5px 8px 0 rgba(99,102,241,0.10) !important;
+}
+
+.light-theme .payment-methods img {
+  background: #fff !important;
+  box-shadow: 0 2px 8px 0 rgba(99,102,241,0.10) !important;
+  border-radius: 4px !important;
+}
+
+.light-theme .payment-methods img:hover {
+  box-shadow: 0 4px 16px #6366f1cc !important;
+  transform: scale(1.08) rotate(-2deg) !important;
+  z-index: 2;
+}
+
+/* Animations (globally available) */
+@keyframes fadeInUp {
+  0% { opacity: 0; transform: translateY(40px); }
+  100% { opacity: 1; transform: translateY(0); }
+}

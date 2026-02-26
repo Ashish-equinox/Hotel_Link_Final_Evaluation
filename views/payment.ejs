@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <%- include('partials/head') %>
+  <style>
+    /* Additional styles for the payment page */
+    .payment-card {
+      background: rgba(31, 41, 55, 0.85);
+      border: 1.5px solid rgba(55, 65, 81, 1);
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 8px 32px 0 rgba(0,0,0,0.25), 0 1.5px 8px 0 rgba(80,80,255,0.10);
+      transition: box-shadow 0.3s, background 0.3s;
+      animation: fadeInUp 0.7s cubic-bezier(.39,.575,.56,1.000) both;
+    }
+
+    /* HOVER FOR DARK THEME */
+.payment-card:hover {
+      box-shadow: 0 12px 40px 0 rgba(80,80,255,0.25), 0 2px 12px 0 rgba(80,80,255,0.15);
+      background: rgba(40, 50, 70, 0.95);
+    }
+
+    /* LIGHT THEME STYLES ARE NOW IN theme.css */
+
+    .payment-card input,
+    .payment-card select {
+      background: rgba(55, 65, 81, 1);
+      border: 1px solid rgba(75, 85, 99, 1);
+      color: white;
+      padding: 10px;
+      border-radius: 8px;
+      width: 100%;
+    }
+    /* Add placeholder color for dark mode inputs */
+    .payment-card input::placeholder,
+    .payment-card select::placeholder {
+        color: #9ca3af; 
+    }
+
+    .payment-card input:focus,
+    .payment-card select:focus {
+      outline: none;
+      border-color: #6366f1;
+      box-shadow: 0 0 0 2px #6366f1, 0 1.5px 8px 0 rgba(80,80,255,0.10);
+      background: rgba(55, 65, 81, 0.95);
+      transition: box-shadow 0.2s, border-color 0.2s, background 0.2s;
+    }
+
+    .payment-summary {
+      background: rgba(31, 41, 55, 0.85);
+      border: 1.5px solid rgba(55, 65, 81, 1);
+      border-radius: 16px;
+      padding: 24px;
+      box-shadow: 0 8px 32px 0 rgba(0,0,0,0.18), 0 1.5px 8px 0 rgba(80,80,255,0.08);
+      transition: box-shadow 0.3s, background 0.3s;
+      animation: fadeInUp 0.9s cubic-bezier(.39,.575,.56,1.000) both;
+    }
+
+    .payment-summary:hover {
+      box-shadow: 0 12px 40px 0 rgba(80,80,255,0.18), 0 2px 12px 0 rgba(80,80,255,0.10);
+      background: rgba(40, 50, 70, 0.97);
+    }
+
+    /* Payment method images hover effect */
+    .payment-methods img {
+      filter: grayscale(0.2) brightness(0.98) drop-shadow(0 2px 6px #6366f1aa);
+      transition: transform 0.2s, filter 0.2s;
+      cursor: pointer;
+    }
+
+    .payment-methods img:hover {
+      filter: none;
+      transform: scale(1.08) rotate(-2deg);
+      box-shadow: 0 4px 16px #6366f1cc;
+      z-index: 2;
+    }
+
+    /* LIGHT THEME STYLES ARE NOW IN theme.css */
+  </style>
+</head>
+
+<body class="min-h-screen flex flex-col bg-gray-900 text-gray-100">
+  <%- include('partials/navbar') %>
+
+  <main class="flex-grow p-4">
+    <div class="max-w-4xl mx-auto">
+      <h1 class="text-3xl font-bold text-white mb-6 text-center payment-page-title">Payment Gateway</h1>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Payment Form -->
+        <div class="payment-card">
+          <h2 class="text-xl font-semibold text-white mb-4">Enter Payment Details</h2>
+          <form action="/process-payment" method="POST">
+            <input type="hidden" name="hotelName" value="<%= hotelName %>">
+            <input type="hidden" name="checkIn" value="<%= checkIn %>">
+            <input type="hidden" name="checkOut" value="<%= checkOut %>">
+            <div class="mb-4">
+              <label for="cardName" class="block text-sm text-gray-400 mb-2">Cardholder Name</label>
+              <input type="text" id="cardName" name="cardName" placeholder="" required>
+            </div>
+            <div class="mb-4">
+              <label for="cardNumber" class="block text-sm text-gray-400 mb-2">Card Number</label>
+              <input type="text" id="cardNumber" name="cardNumber" placeholder="1234 5678 9012 3456" required>
+            </div>
+            <div class="grid grid-cols-2 gap-4 mb-4">
+              <div>
+                <label for="expiryDate" class="block text-sm text-gray-400 mb-2">Expiry Date</label>
+                <input type="text" id="expiryDate" name="expiryDate" placeholder="MM/YY" required>
+              </div>
+              <div>
+                <label for="cvv" class="block text-sm text-gray-400 mb-2">CVV</label>
+                <input type="text" id="cvv" name="cvv" placeholder="123" required>
+              </div>
+            </div>
+            <div class="flex payment-methods justify-center items-center gap-6 mt-4 mb-6">
+              <img src="/images/visa.png" alt="Visa" style="height:32px; min-width:56px; background:white; padding:2px; border-radius:4px; object-fit:contain;">
+              <img src="/images/mastercard.png" alt="Mastercard" style="height:32px; min-width:56px; background:white; padding:2px; border-radius:4px; object-fit:contain;">
+              <img src="/images/rupay.png" alt="RuPay" style="height:32px; min-width:56px; background:white; padding:2px; border-radius:4px; object-fit:contain;">
+              <img src="/images/paytm.png" alt="Paytm" style="height:32px; min-width:56px; background:white; padding:2px; border-radius:4px; object-fit:contain;">
+            </div>
+            <div class="mb-4">
+              <label for="billingAddress" class="block text-sm text-gray-400 mb-2">Billing Address</label>
+              <input type="text" id="billingAddress" name="billingAddress" placeholder="123 Main St, City, Country" required>
+            </div>
+            <div class="mb-4">
+              <label for="guests" class="block text-sm text-gray-400 mb-2">Number of Guests</label>
+              <select id="guests" name="guests" class="payment-card select" required>
+                <option value="1" data-price="2500">1 Person - Rs. 2500</option>
+                <option value="2" data-price="5000">2 Persons - Rs. 5000</option>
+                <option value="3" data-price="7500">3 Persons - Rs. 7500</option>
+                <option value="4" data-price="10000">4 Persons - Rs. 10000</option>
+              </select>
+            </div>
+            <div class="mb-4">
+              <label for="total" class="block text-sm text-gray-400 mb-2">Total Amount</label>
+              <input type="text" id="total" name="total" value="2500" readonly>
+            </div>
+            <button type="submit" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg transition duration-300 w-full">
+              Pay Now
+            </button>
+          </form>
+        </div>
+
+        <!-- Order Summary -->
+        <div class="payment-summary">
+          <h2 class="text-xl font-semibold text-white mb-4">Order Summary</h2>
+          <div class="mb-4">
+            <div class="flex justify-between text-gray-400">
+              <span>Hotel Name:</span>
+              <span><%= hotelName %></span>
+            </div>
+            <div class="flex justify-between text-gray-400">
+              <span>Check-in:</span>
+              <span><%= checkIn %></span>
+            </div>
+            <div class="flex justify-between text-gray-400">
+              <span>Check-out:</span>
+              <span><%= checkOut %></span>
+            </div>
+            <div class="flex justify-between text-gray-400">
+              <span>Guests:</span>
+              <span id="order-summary-guests"><%= guests %></span>
+            </div>
+          </div>
+          <hr class="border-gray-700 mb-4">
+          <div class="flex justify-between text-white text-lg font-bold">
+            <span>Total:</span>
+            <span>Rs. <span id="order-summary-total"><%= typeof total === 'string' && total.includes('.') ? parseFloat(total).toFixed(0) : total %></span></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <%- include('partials/footer') %>
+
+  <script>
+    function updateTotal() {
+      const guestsDropdown = document.getElementById('guests');
+      const selectedOption = guestsDropdown.options[guestsDropdown.selectedIndex];
+      const price = selectedOption.getAttribute('data-price');
+      const guests = selectedOption.value;
+      document.getElementById('total').value = price;
+      document.getElementById('order-summary-guests').innerText = guests;
+      document.getElementById('order-summary-total').innerText = price;
+      // Also update hidden fields if present
+      const hiddenGuests = document.querySelector('input[name="guests"]');
+      const hiddenTotal = document.querySelector('input[name="total"]');
+      if (hiddenGuests) hiddenGuests.value = guests;
+      if (hiddenTotal) hiddenTotal.value = price;
+    }
+    // Update on change
+    document.getElementById('guests').addEventListener('change', updateTotal);
+    // Initialize on page load
+    window.onload = function() { updateTotal(); };
+  </script>
+</body>
+
+</html>

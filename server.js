@@ -1,0 +1,168 @@
+// Import core modules and dependencies
+const express = require('express');
+const path = require('path');
+const session = require('express-session');
+const mongoose = require('mongoose');
+const morgan = require('morgan');
+const cors = require('cors');
+const helmet = require('helmet');
+
+// Import project modules
+const authRoutes = require('./routes/auth');
+const { isAuthenticated } = require('./middleware/authMiddleware');
+const stripe = require('stripe')('your-stripe-secret-key');
+const User = require('./models/User');
+
+const app = express();
+const PORT = 3000;
+
+// Connect to MongoDB database
+mongoose.connect('mongodb+srv://ashishequinox007_db_user:DAJh5Lh7AJL5FjWB@ashishlink.lf8gw9z.mongodb.net/hotelDB?retryWrites=true&w=majority&appName=AshishLink')
+  .then(() => {
+    console.log('Connected to MongoDB');
+  })
+  .catch((err) => {
+    console.error('Error connecting to MongoDB:', err);
+  });
+
+// Middleware
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(express.static('public'));
+
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      directives: {
+        ...helmet.contentSecurityPolicy.getDefaultDirectives(),
+        "script-src": ["'self'", "'unsafe-inline'"],
+        "style-src": [
+          "'self'",
+          "'unsafe-inline'",
+          "https://fonts.googleapis.com",
+          "https://cdnjs.cloudflare.com",
+          "https://cdn.jsdelivr.net"
+        ],
+        "img-src": ["'self'", "data:", "https:"],
+        "font-src": [
+          "'self'",
+          "https://fonts.gstatic.com",
+          "https://fonts.googleapis.com",
+          "data:"
+        ],
+        "connect-src": ["'self'"],
+        "frame-src": ["'self'", "https://www.google.com", "https://maps.google.com"],
+      },
+    },
+  })
+);
+
+app.use(cors());
+
+app.use(session({
+  secret: 'secret-key',
+  resave: false,
+  saveUninitialized: false,
+}));
+
+app.use(morgan('dev'));
+
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
+
+app.use((req, res, next) => {
+  res.locals.user = req.session.user || null;
+  next();
+});
+
+app.use('/', authRoutes);
+
+app.get('/', (req, res) => {
+  res.render('home', { user: req.session.user });
+});
+
+app.get('/about', (req, res) => {
+  res.render('about', { user: req.session.user });
+});
+
+app.get('/contact', (req, res) => {
+  res.render('contact', { user: req.session.user });
+});
+
+app.get('/thankyou', isAuthenticated, (req, res) => {
+  res.render('thankyou', { user: req.session.user });
+});
+
+app.get('/payment', isAuthenticated, (req, res) => {
+  const { hotelName, checkIn, checkOut, guests, total } = req.query;
+
+  const today = new Date();
+  const formattedDate = today.toISOString().split('T')[0];
+
+  res.render('payment', {
+    hotelName: hotelName || 'Hotel Name Not Provided',
+    checkIn: checkIn || formattedDate,
+    checkOut: checkOut || 'N/A',
+    guests: guests || 'N/A',
+    total: total || '0',
+  });
+});
+
+app.post('/process-payment', async (req, res) => {
+  const { guests, total, checkIn, checkOut, hotelName } = req.body;
+
+  try {
+    if (req.session.user) {
+      const user = await User.findById(req.session.user._id);
+      if (!user) {
+        return res.status(404).send('User not found.');
+      }
+
+      user.bookings.push({
+        hotelName: hotelName || 'Default Hotel',
+        checkIn: checkIn || 'N/A',
+        checkOut: checkOut || 'N/A',
+        guests: guests ? parseInt(guests, 10) : 1,
+        total: total ? parseInt(total, 10) : 0
+      });
+
+      await user.save();
+    }
+
+    res.redirect('/thankyou');
+  } catch (error) {
+    res.status(500).send('Payment failed: ' + error.message);
+  }
+});
+
+app.get('/dashboard', isAuthenticated, async (req, res) => {
+  try {
+    const user = await User.findById(req.session.user._id).lean();
+    res.render('dashboard', { user });
+  } catch (error) {
+    res.status(500).send('Error loading dashboard.');
+  }
+});
+
+app.get('/profile', isAuthenticated, (req, res) => {
+  res.redirect('/dashboard');
+});
+
+app.post('/cancel-booking', isAuthenticated, async (req, res) => {
+  const { bookingIndex } = req.body;
+
+  try {
+    const user = await User.findById(req.session.user._id);
+    if (user && user.bookings && user.bookings.length > bookingIndex) {
+      user.bookings.splice(bookingIndex, 1);
+      await user.save();
+    }
+    res.redirect('/dashboard');
+  } catch (error) {
+    res.status(500).send('Could not cancel booking.');
+  }
+});
+
+app.listen(PORT, () => {
+  console.log(`Server running on http://localhost:${PORT}`);
+});

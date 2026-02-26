@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%- include('partials/head') %>
+</head>
+<body class="min-h-screen flex flex-col bg-gray-900 text-gray-100">
+  <%- include('partials/navbar') %>
+  <main class="flex-grow p-4 flex items-center justify-center">
+    <div class="w-full max-w-md">
+      <div class="bg-gray-800 rounded-xl shadow-lg overflow-hidden border border-gray-700">
+        <!-- Login Header -->
+        <div class="bg-gradient-to-r from-indigo-800 to-purple-800 p-6 text-center">
+          <div class="mb-4 flex justify-center">
+            <div class="bg-indigo-700 p-3 rounded-full inline-flex items-center">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
+              </svg>
+            </div>
+          </div>
+          <h1 class="text-2xl font-bold text-white">Log In to Your Account</h1>
+          <p class="text-indigo-200 mt-2">Access your bookings and manage your profile</p>
+        </div>
+        
+        <!-- Login Form -->
+        <div class="p-6">
+          <form action="/login" method="POST">
+            <div class="mb-6">
+              <label for="email" class="block text-sm font-medium text-gray-300 mb-2">Email Address</label>
+              <div class="relative">
+                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207" />
+                  </svg>
+                </div>
+                <input type="email" id="email" name="email" value="<%= user.email || '' %>" required placeholder="your@email.com" class="w-full pl-10 pr-3 py-3 bg-gray-700 border border-gray-600 rounded-lg text-gray-100 placeholder-gray-400 focus:ring focus:ring-indigo-500 focus:border-indigo-500">
+              </div>
+            </div>
+            
+            <div class="mb-6">
+              <div class="flex justify-between items-center mb-2">
+                <label for="password" class="text-sm font-medium text-gray-300">Password</label>
+                <a href="/forgot-password" class="text-xs text-indigo-400 hover:text-indigo-300">Forgot Password?</a>
+              </div>
+              <div class="relative">
+                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                  </svg>
+                </div>
+                <input type="password" id="password" name="password" required placeholder="••••••••" class="w-full pl-10 pr-3 py-3 bg-gray-700 border border-gray-600 rounded-lg text-gray-100 placeholder-gray-400 focus:ring focus:ring-indigo-500 focus:border-indigo-500">
+              </div>
+            </div>
+            
+            <% if (error) { %>
+            <div class="mb-4 text-red-500 text-center">
+              <span><%= error %></span>
+            </div>
+            <% } %>
+            
+            <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-3 px-4 rounded-lg transition duration-300 flex items-center justify-center">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
+              </svg>
+              Log In
+            </button>
+          </form>
+          
+          <div class="mt-6 pt-6 border-t border-gray-700 text-center">
+            <p class="text-gray-400">Don't have an account?</p>
+            <a href="/signup" class="block mt-2 bg-gray-700 hover:bg-gray-600 text-white font-medium py-3 px-4 rounded-lg transition duration-300">Create Account</a>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Social Login -->
+      <div class="mt-6">
+        <div class="relative">
+          <div class="absolute inset-0 flex items-center">
+            <div class="w-full border-t border-gray-700"></div>
+          </div>
+          <div class="relative flex justify-center text-sm">
+            <span class="px-2 bg-gray-900 text-gray-400">Or continue with</span>
+          </div>
+        </div>
+        
+        <div class="mt-6 grid grid-cols-3 gap-3">
+          <a href="https:/google.com" class="w-full flex items-center justify-center py-2 px-4 border border-gray-700 rounded-md shadow-sm bg-gray-800 hover:bg-gray-700 transition duration-300">
+            <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M22.5 12.5c0-5.799-4.701-10.5-10.5-10.5S1.5 6.701 1.5 12.5c0 5.799 4.701 10.5 10.5 10.5 5.799 0 10.5-4.701 10.5-10.5z" stroke="#4285F4" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+              <path d="M12 7.5v10M7 12.5h10" stroke="#EA4335" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+            </svg>
+          </a>
+          
+          <a href="https:/facebook.com" class="w-full flex items-center justify-center py-2 px-4 border border-gray-700 rounded-md shadow-sm bg-gray-800 hover:bg-gray-700 transition duration-300">
+            <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3V2z" stroke="#3B5998" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+            </svg>
+          </a>
+          
+          <a href="https:/apple.com" class="w-full flex items-center justify-center py-2 px-4 border border-gray-700 rounded-md shadow-sm bg-gray-800 hover:bg-gray-700 transition duration-300">
+            <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12.146 2c.2 1.4-.3 2.8-1 3.8-.7 1-1.9 1.7-3 1.7-.2-1.3.3-2.7 1-3.7.8-1.1 2-1.8 3-1.8zM15.4 21.5c.9 0 1.4-.6 2.3-1.5 1-.9 1.4-2.1 1.4-3.4 0-1.2-.5-2.3-1.6-3 .1-.9.8-2.5 2.8-4-1.4-1.9-2.8-2.1-3.3-2.1-1.4 0-2.3.7-3 .7-.7 0-1.7-.7-3-.7-2.4 0-4.9 2-4.9 5.7 0 2.2.7 4.6 1.6 6.2 1 1.4 1.8 2.1 2.9 2.1 1 0 1.6-.7 3-.7 1.3 0 1.8.7 2.8.7z" stroke="#000" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"></path>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <%- include('partials/footer') %>
+
+</body>
+</html>

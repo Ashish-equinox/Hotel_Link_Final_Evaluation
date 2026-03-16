@@ -30,6 +30,10 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static('public'));
 
+// Serve React frontend in production
+const clientDistPath = path.join(__dirname, 'client', 'dist');
+app.use(express.static(clientDistPath));
+
 app.use(
   helmet({
     contentSecurityPolicy: {
@@ -77,29 +81,31 @@ app.use((req, res, next) => {
 
 app.use('/', authRoutes);
 
-app.get('/', (req, res) => {
-  res.render('home', { user: req.session.user });
+
+
+app.get('/api/home', (req, res) => {
+  res.json({ user: req.session.user });
 });
 
-app.get('/about', (req, res) => {
-  res.render('about', { user: req.session.user });
+app.get('/api/about', (req, res) => {
+  res.json({ user: req.session.user });
 });
 
-app.get('/contact', (req, res) => {
-  res.render('contact', { user: req.session.user });
+app.get('/api/contact', (req, res) => {
+  res.json({ user: req.session.user });
 });
 
-app.get('/thankyou', isAuthenticated, (req, res) => {
-  res.render('thankyou', { user: req.session.user });
+app.get('/api/thankyou', isAuthenticated, (req, res) => {
+  res.json({ user: req.session.user });
 });
 
-app.get('/payment', isAuthenticated, (req, res) => {
+app.get('/api/payment', isAuthenticated, (req, res) => {
   const { hotelName, checkIn, checkOut, guests, total } = req.query;
 
   const today = new Date();
   const formattedDate = today.toISOString().split('T')[0];
 
-  res.render('payment', {
+  res.json({
     hotelName: hotelName || 'Hotel Name Not Provided',
     checkIn: checkIn || formattedDate,
     checkOut: checkOut || 'N/A',
@@ -108,14 +114,14 @@ app.get('/payment', isAuthenticated, (req, res) => {
   });
 });
 
-app.post('/process-payment', async (req, res) => {
+app.post('/api/process-payment', async (req, res) => {
   const { guests, total, checkIn, checkOut, hotelName } = req.body;
 
   try {
     if (req.session.user) {
       const user = await User.findById(req.session.user._id);
       if (!user) {
-        return res.status(404).send('User not found.');
+        return res.status(404).json({ error: 'User not found.' });
       }
 
       user.bookings.push({
@@ -129,38 +135,54 @@ app.post('/process-payment', async (req, res) => {
       await user.save();
     }
 
-    res.redirect('/thankyou');
+    res.json({ success: true, redirect: '/thankyou' });
   } catch (error) {
-    res.status(500).send('Payment failed: ' + error.message);
+    res.status(500).json({ error: 'Payment failed: ' + error.message });
   }
 });
 
-app.get('/dashboard', isAuthenticated, async (req, res) => {
+app.get('/api/dashboard', isAuthenticated, async (req, res) => {
   try {
     const user = await User.findById(req.session.user._id).lean();
-    res.render('dashboard', { user });
+    res.json({ user });
   } catch (error) {
-    res.status(500).send('Error loading dashboard.');
+    res.status(500).json({ error: 'Error loading dashboard.' });
   }
 });
 
-app.get('/profile', isAuthenticated, (req, res) => {
-  res.redirect('/dashboard');
+app.get('/api/profile', isAuthenticated, (req, res) => {
+  res.json({ redirect: '/dashboard' });
 });
 
-app.post('/cancel-booking', isAuthenticated, async (req, res) => {
+app.post('/api/cancel-booking', isAuthenticated, async (req, res) => {
   const { bookingIndex } = req.body;
 
   try {
     const user = await User.findById(req.session.user._id);
+    console.log(`Cancelling booking at index ${bookingIndex} for user ${user.email}`);
     if (user && user.bookings && user.bookings.length > bookingIndex) {
       user.bookings.splice(bookingIndex, 1);
+      user.markModified('bookings');
       await user.save();
+      console.log('Booking successfully removed and user saved.');
+    } else {
+      console.warn('Booking index out of bounds or user/bookings not found.');
     }
-    res.redirect('/dashboard');
+    res.json({ success: true, redirect: '/dashboard' });
   } catch (error) {
-    res.status(500).send('Could not cancel booking.');
+    console.error('Error cancelling booking:', error);
+    res.status(500).json({ error: 'Could not cancel booking.' });
   }
+});
+
+// SPA catch-all: serve React build for any non-API route
+app.use((req, res) => {
+  const indexFile = path.join(__dirname, 'client', 'dist', 'index.html');
+  res.sendFile(indexFile, (err) => {
+    if (err) {
+      res.status(200).send('Hotel Link API running. In dev mode, use http://localhost:5173');
+    }
+  });
 });
 
 app.listen(PORT, () => {

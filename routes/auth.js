@@ -19,16 +19,16 @@ function saveUsers(users) {
   fs.writeFileSync(USERS_FILE, JSON.stringify(users, null, 2));
 }
 
-router.get('/login', (req, res) => {
-  res.render('login', { error: null, user: {} });
+router.get('/api/login', (req, res) => {
+  res.json({ error: null, user: {} });
 });
 
-router.post('/login', async (req, res) => {
+router.post('/api/login', async (req, res) => {
   const { email, password } = req.body;
   try {
     const user = await User.findOne({ email });
     if (!user || !(await user.comparePassword(password))) {
-      return res.render('login', { error: 'Invalid credentials', user: {email} });
+      return res.status(401).json({ error: 'Invalid credentials', user: {email} });
     }
 
     // Store user in session with explicit debug output
@@ -48,37 +48,37 @@ router.post('/login', async (req, res) => {
 
     console.log('Session user after login:', req.session.user);
     
-    res.redirect('/');
+    res.json({ success: true, user: req.session.user, redirect: '/' });
   } catch (error) {
     console.error('Login error:', error);
-    res.status(500).send('An error occurred. Please try again.');
+    res.status(500).json({ error: 'An error occurred. Please try again.' });
   }
 });
 
 // Login Success Page
-router.get('/login-success', (req, res) => {
-  res.render('login-success', { user: req.session.user });
+router.get('/api/login-success', (req, res) => {
+  res.json({ user: req.session.user });
 });
 
-router.get('/signup', (req, res) => {
-  res.render('signup', { error: null, user: {} });
+router.get('/api/signup', (req, res) => {
+  res.json({ error: null, user: {} });
 });
 
 // Signup Route
-router.post('/signup', async (req, res) => {
+router.post('/api/signup', async (req, res) => {
   const { firstName, lastName, email, password } = req.body;
 
   console.log('Signup data received:', { firstName, lastName, email, password }); // Debug log
 
   // Validate input
   if (!firstName || !lastName || !email || !password) {
-    return res.render('signup', { error: 'All fields are required', user: {} });
+    return res.status(400).json({ error: 'All fields are required', user: {} });
   }
 
   try {
     const existingUser = await User.findOne({ email });
     if (existingUser) {
-      return res.render('signup', { error: 'Email already exists', user: {} });
+      return res.status(400).json({ error: 'Email already exists', user: {} });
     }
 
     const newUser = new User({ 
@@ -97,20 +97,20 @@ router.post('/signup', async (req, res) => {
       email: newUser.email
     };
     
-    res.redirect('/signup-success');
+    res.json({ success: true, redirect: '/signup-success' });
   } catch (err) {
     console.error('Error during signup:', err);
-    res.status(500).send('Signup failed.');
+    res.status(500).json({ error: 'Signup failed.' });
   }
 });
 
 // Signup Success Page
-router.get('/signup-success', (req, res) => {
-  res.render('signup-success', { user: req.session.user });
+router.get('/api/signup-success', (req, res) => {
+  res.json({ user: req.session.user });
 });
 
 // Register route (deprecated - maintained for backward compatibility)
-router.post('/register', async (req, res) => {
+router.post('/api/register', async (req, res) => {
   const { name, email, password } = req.body;
 
   try {
@@ -121,7 +121,7 @@ router.post('/register', async (req, res) => {
 
     const existingUser = await User.findOne({ email });
     if (existingUser) {
-      return res.status(400).send('User already exists.');
+      return res.status(400).json({ error: 'User already exists.' });
     }
 
     const newUser = new User({ 
@@ -140,36 +140,36 @@ router.post('/register', async (req, res) => {
       email: newUser.email
     };
     
-    res.redirect('/signup-success');
+    res.json({ success: true, redirect: '/signup-success' });
   } catch (err) {
     console.error('Error registering user:', err);
-    res.status(500).send('Registration failed.');
+    res.status(500).json({ error: 'Registration failed.' });
   }
 });
 
 // Logout Route
-router.get('/logout', (req, res) => {
+router.get('/api/logout', (req, res) => {
   req.session.destroy((err) => {
     if (err) {
       console.error('Error during logout:', err);
-      return res.status(500).send('An error occurred during logout.');
+      return res.status(500).json({ error: 'An error occurred during logout.' });
     }
-    res.redirect('/');
+    res.json({ success: true, redirect: '/' });
   });
 });
 
 // Forgot Password - Request
-router.get('/forget-password', (req, res) => {
-  res.render('forget-password', { error: null, message: null, showResetForm: false });
+router.get('/api/forget-password', (req, res) => {
+  res.json({ error: null, message: null, showResetForm: false });
 });
 
 // In-browser forgot password flow
-router.post('/forget-password', async (req, res) => {
+router.post('/api/forget-password', async (req, res) => {
   const { email } = req.body;
   try {
     const user = await User.findOne({ email });
     if (!user) {
-      return res.render('forget-password', { error: 'No account with that email found.', message: null, showResetForm: false });
+      return res.status(404).json({ error: 'No account with that email found.', message: null, showResetForm: false });
     }
     // Generate token
     const token = crypto.randomBytes(20).toString('hex');
@@ -177,7 +177,7 @@ router.post('/forget-password', async (req, res) => {
     user.resetPasswordExpires = Date.now() + 3600000; // 1 hour
     await user.save();
     // Send reset link via email
-    const resetLink = `http://localhost:3000/reset-password/${token}`;
+    const resetLink = `http://localhost:5173/reset-password/${token}`;
     const subject = 'Password Reset Request';
     const html = `<h1>Password Reset</h1>
       <p>You requested a password reset for your account.</p>
@@ -185,64 +185,64 @@ router.post('/forget-password', async (req, res) => {
       <a href="${resetLink}">${resetLink}</a>
       <p>If you did not request this, please ignore this email.</p>`;
     await sendmail(user.email, subject, html);
-    res.render('forget-password', { error: null, message: 'A password reset link has been sent to your email.', showResetForm: false });
+    res.json({ error: null, message: 'A password reset link has been sent to your email.', showResetForm: false });
   } catch (error) {
     console.error('Error in forget-password:', error);
-    res.render('forget-password', { error: 'An error occurred. Please try again.', message: null, showResetForm: false });
+    res.status(500).json({ error: 'An error occurred. Please try again.', message: null, showResetForm: false });
   }
 });
 
-router.post('/reset-password-direct', async (req, res) => {
+router.post('/api/reset-password-direct', async (req, res) => {
   const { email, password } = req.body;
   try {
     const user = await User.findOne({ email });
     if (!user) {
-      return res.render('forget-password', { error: 'No account with that email found.', message: null, showResetForm: false });
+      return res.status(404).json({ error: 'No account with that email found.', message: null, showResetForm: false });
     }
     user.password = password;
     await user.save();
-    res.render('password-updated');
+    res.json({ success: true, message: 'Password updated successfully' });
   } catch (error) {
     console.error('Error resetting password:', error);
-    res.render('forget-password', { error: 'An error occurred. Please try again.', message: null, showResetForm: false });
+    res.status(500).json({ error: 'An error occurred. Please try again.', message: null, showResetForm: false });
   }
 });
 
 // Alias for /forgot-password to /forget-password
-router.get('/forgot-password', (req, res) => {
-  res.render('forget-password', { error: null, message: null, showResetForm: false });
+router.get('/api/forgot-password', (req, res) => {
+  res.json({ error: null, message: null, showResetForm: false });
 });
-router.post('/forgot-password', (req, res) => {
-  res.redirect(307, '/forget-password'); // 307 preserves POST method and body
+router.post('/api/forgot-password', (req, res) => {
+  res.redirect(307, '/api/forget-password'); // 307 preserves POST method and body
 });
 
 // Reset Password - Form
-router.get('/reset-password/:token', async (req, res) => {
+router.get('/api/reset-password/:token', async (req, res) => {
   const { token } = req.params;
   const user = await User.findOne({ resetPasswordToken: token, resetPasswordExpires: { $gt: Date.now() } });
   if (!user) {
-    return res.send('Password reset token is invalid or has expired.');
+    return res.status(400).json({ error: 'Password reset token is invalid or has expired.' });
   }
-  res.render('reset-password', { token, error: null });
+  res.json({ token, error: null });
 });
 
 // Reset Password - Submit
-router.post('/reset-password/:token', async (req, res) => {
+router.post('/api/reset-password/:token', async (req, res) => {
   const { token } = req.params;
   const { password } = req.body;
   const user = await User.findOne({ resetPasswordToken: token, resetPasswordExpires: { $gt: Date.now() } });
   if (!user) {
-    return res.send('Password reset token is invalid or has expired.');
+    return res.status(400).json({ error: 'Password reset token is invalid or has expired.' });
   }
   user.password = password;
   user.resetPasswordToken = undefined;
   user.resetPasswordExpires = undefined;
   await user.save();
-  res.render('password-updated');
+  res.json({ success: true, message: 'Password updated successfully' });
 });
 
 // Contact form submission route
-router.post('/contact', async (req, res) => {
+router.post('/api/contact', async (req, res) => {
   const { name, email, message } = req.body;
 
   const transporter = nodemailer.createTransport({
@@ -262,10 +262,10 @@ router.post('/contact', async (req, res) => {
 
   try {
     await transporter.sendMail(mailOptions);
-    res.render('contact-thankyou');
+    res.json({ success: true, message: 'Message sent successfully' });
   } catch (error) {
     console.error('Email sending failed:', error);
-    res.status(500).send('Something went wrong. Please try again later.');
+    res.status(500).json({ error: 'Something went wrong. Please try again later.' });
   }
 });
 

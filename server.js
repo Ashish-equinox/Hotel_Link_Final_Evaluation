@@ -1,4 +1,3 @@
-// Import core modules and dependencies
 const express = require('express');
 const path = require('path');
 const session = require('express-session');
@@ -7,7 +6,6 @@ const morgan = require('morgan');
 const cors = require('cors');
 const helmet = require('helmet');
 
-// Import project modules
 const authRoutes = require('./routes/auth');
 const { isAuthenticated } = require('./middleware/authMiddleware');
 const stripe = require('stripe')('your-stripe-secret-key');
@@ -16,7 +14,6 @@ const User = require('./models/User');
 const app = express();
 const PORT = 3000;
 
-// Connect to MongoDB database
 mongoose.connect('mongodb+srv://ashishequinox007_db_user:DAJh5Lh7AJL5FjWB@ashishlink.lf8gw9z.mongodb.net/hotelDB?retryWrites=true&w=majority&appName=AshishLink')
   .then(() => {
     console.log('Connected to MongoDB');
@@ -25,12 +22,10 @@ mongoose.connect('mongodb+srv://ashishequinox007_db_user:DAJh5Lh7AJL5FjWB@ashish
     console.error('Error connecting to MongoDB:', err);
   });
 
-// Middleware
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static('public'));
 
-// Serve React frontend in production
 const clientDistPath = path.join(__dirname, 'client', 'dist');
 app.use(express.static(clientDistPath));
 
@@ -175,7 +170,6 @@ app.post('/api/cancel-booking', isAuthenticated, async (req, res) => {
   }
 });
 
-// SPA catch-all: serve React build for any non-API route
 app.use((req, res) => {
   const indexFile = path.join(__dirname, 'client', 'dist', 'index.html');
   res.sendFile(indexFile, (err) => {

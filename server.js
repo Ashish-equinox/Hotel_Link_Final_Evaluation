@@ -6,15 +6,17 @@ const morgan = require('morgan');
 const cors = require('cors');
 const helmet = require('helmet');
 
+require('dotenv').config();
+
 const authRoutes = require('./routes/auth');
 const { isAuthenticated } = require('./middleware/authMiddleware');
-const stripe = require('stripe')('your-stripe-secret-key');
+const stripe = require('stripe')(process.env.STRIPE_KEY);
 const User = require('./models/User');
 
 const app = express();
 const PORT = 3000;
 
-mongoose.connect('mongodb+srv://ashishequinox007_db_user:DAJh5Lh7AJL5FjWB@ashishlink.lf8gw9z.mongodb.net/hotelDB?retryWrites=true&w=majority&appName=AshishLink')
+mongoose.connect(process.env.MONGODB_URI)
   .then(() => {
     console.log('Connected to MongoDB');
   })

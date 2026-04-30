@@ -1,3 +1,4 @@
+import { apiFetch } from "../api";
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
@@ -13,7 +14,7 @@ const Login = ({ user, handleLogin, handleLogout }) => {
     e.preventDefault();
     setError(null);
     try {
-      const res = await fetch('/api/login', {
+      const res = await apifetch('/api/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password })

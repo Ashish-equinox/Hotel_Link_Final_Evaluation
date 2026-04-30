@@ -1,3 +1,4 @@
+import { apiFetch } from "../api";
 import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import Navbar from '../components/Navbar';
@@ -37,7 +38,7 @@ const Payment = ({ user, handleLogout }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await fetch('/api/process-payment', {
+      const res = await apiFetch('/api/process-payment', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ guests, total, checkIn, checkOut, hotelName })

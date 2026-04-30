@@ -1,3 +1,4 @@
+import { apiFetch } from "../api";
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 
@@ -31,7 +32,7 @@ const Contact = ({ user, handleLogout }) => {
                 const data = Object.fromEntries(formData.entries());
                 
                 try {
-                  const res = await fetch('/api/contact', {
+                  const res = await apiFetch('/contact', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify(data)

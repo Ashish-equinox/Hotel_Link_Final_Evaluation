@@ -1,3 +1,4 @@
+import { apiFetch } from "../api";
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
@@ -17,7 +18,7 @@ const Signup = ({ user, handleLogout }) => {
     e.preventDefault();
     setError(null);
     try {
-      const res = await fetch('/api/signup', {
+      const res = await apiFetch('/api/signup', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData)

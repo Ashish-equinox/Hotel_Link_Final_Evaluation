@@ -1,3 +1,4 @@
+import { apiFetch } from "./api";
 import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import Home from './pages/Home';
@@ -26,7 +27,7 @@ function App() {
   useEffect(() => {
     const checkSession = async () => {
       try {
-        const res = await fetch('/api/home');
+        const res = await apiFetch('/home');
         const data = await res.json();
         if (data.user) {
           setUser(data.user);
@@ -46,7 +47,7 @@ function App() {
 
   const handleLogout = async () => {
     try {
-      const res = await fetch('/api/logout');
+      const res = await apiFetch('/api/logout');
       if (res.ok) {
         setUser(null);
         window.location.href = '/';

@@ -1,3 +1,4 @@
+import { apiFetch } from "../api";
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
@@ -17,7 +18,7 @@ const Dashboard = ({ user, handleLogout }) => {
     
     const fetchProfile = async () => {
       try {
-        const res = await fetch('/api/dashboard');
+        const res = await apiFetch('/dashboard');
         const data = await res.json();
         if (res.ok && data.user) {
           setProfile(data.user);
@@ -38,7 +39,7 @@ const Dashboard = ({ user, handleLogout }) => {
     if (!window.confirm('Are you sure you want to cancel this booking?')) return;
     
     try {
-      const res = await fetch('/api/cancel-booking', {
+      const res = await apiFetch('/api/cancel-booking', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ bookingIndex: index })

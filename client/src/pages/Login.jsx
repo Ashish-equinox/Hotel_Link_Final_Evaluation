@@ -12,14 +12,21 @@ const Login = ({ user, handleLogin, handleLogout }) => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
+    console.log("LOGIN CLICKED"); // debug
+
     setError(null);
     try {
-      const res = await apifetch('/api/login', {
+      const res = await apiFetch('/api/login', {   // ✅ FIXED HERE
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password })
+        body: JSON.stringify({ email, password }),
+        credentials: "include"
       });
+
       const data = await res.json();
+
+      console.log("RESPONSE:", data); // debug
+
       if (res.ok && data.success) {
         handleLogin(data.user);
         navigate('/');
@@ -27,13 +34,13 @@ const Login = ({ user, handleLogin, handleLogout }) => {
         setError(data.error || 'Login failed');
       }
     } catch (err) {
+      console.error(err);
       setError('An error occurred. Please try again.');
     }
   };
 
   return (
     <div className="min-h-screen flex flex-col relative overflow-hidden transition-colors duration-300">
-      {/* Background Decor */}
       <div className="absolute inset-0 z-0">
         <img 
           src="https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?auto=format&fit=crop&q=80&w=1920" 
@@ -74,7 +81,7 @@ const Login = ({ user, handleLogin, handleLogout }) => {
               <div className="space-y-2">
                 <div className="flex justify-between items-center ml-2">
                   <label className="text-[10px] uppercase tracking-widest font-black text-secondary">Password</label>
-                  <Link to="/forgot-password" size="sm" className="text-[10px] uppercase tracking-widest font-black text-indigo-500 hover:text-indigo-400">Forgot?</Link>
+                  <Link to="/forgot-password" className="text-[10px] uppercase tracking-widest font-black text-indigo-500 hover:text-indigo-400">Forgot?</Link>
                 </div>
                 <input 
                   type="password" 

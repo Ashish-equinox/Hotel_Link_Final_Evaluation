@@ -43,14 +43,22 @@ app.use(
           "https://fonts.googleapis.com",
           "data:"
         ],
-        "connect-src": ["'self'"],
+        "connect-src": [
+          "'self'",
+          "https://hotel-link-final-evaluation.onrender.com",
+          "https://hotel-link-final-evaluation.vercel.app"
+        ],
         "frame-src": ["'self'", "https://www.google.com", "https://maps.google.com"],
       },
     },
   })
 );
 
-app.use(cors());
+/* ===== FIXED CORS ===== */
+app.use(cors({
+  origin: "https://hotel-link-final-evaluation.vercel.app",
+  credentials: true
+}));
 
 app.use(session({
   secret: 'secret-key',

@@ -27,7 +27,7 @@ function App() {
   useEffect(() => {
     const checkSession = async () => {
       try {
-        const res = await apiFetch('/home');
+        const res = await apiFetch('/api/home');
         const data = await res.json();
         if (data.user) {
           setUser(data.user);

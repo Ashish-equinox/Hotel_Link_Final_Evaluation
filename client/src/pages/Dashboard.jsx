@@ -18,7 +18,7 @@ const Dashboard = ({ user, handleLogout }) => {
     
     const fetchProfile = async () => {
       try {
-        const res = await apiFetch('/dashboard');
+        const res = await apiFetch('/api/dashboard');
         const data = await res.json();
         if (res.ok && data.user) {
           setProfile(data.user);

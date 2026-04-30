@@ -28,7 +28,7 @@ app.use(express.json());
 app.use(express.static('public'));
 
 const clientDistPath = path.join(__dirname, 'client', 'dist');
-app.use(express.static(clientDistPath));
+// app.use(express.static(clientDistPath));
 
 app.use(
   helmet({
@@ -171,7 +171,7 @@ app.post('/api/cancel-booking', isAuthenticated, async (req, res) => {
   }
 });
 
-app.use((req, res) => {
+/* app.use((req, res) => {
   const indexFile = path.join(__dirname, 'client', 'dist', 'index.html');
   res.sendFile(indexFile, (err) => {
     if (err) {
@@ -179,6 +179,7 @@ app.use((req, res) => {
     }
   });
 });
+*/
 
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);

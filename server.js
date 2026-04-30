@@ -10,7 +10,6 @@ require('dotenv').config();
 
 const authRoutes = require('./routes/auth');
 const { isAuthenticated } = require('./middleware/authMiddleware');
-const stripe = require('stripe')(process.env.STRIPE_KEY);
 const User = require('./models/User');
 
 const app = express();

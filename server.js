@@ -16,19 +16,12 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 mongoose.connect(process.env.MONGODB_URI)
-  .then(() => {
-    console.log('Connected to MongoDB');
-  })
-  .catch((err) => {
-    console.error('Error connecting to MongoDB:', err);
-  });
+  .then(() => console.log('Connected to MongoDB'))
+  .catch((err) => console.error('Error connecting to MongoDB:', err));
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static('public'));
-
-const clientDistPath = path.join(__dirname, 'client', 'dist');
-// app.use(express.static(clientDistPath));
 
 app.use(
   helmet({
@@ -75,20 +68,21 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use('/', authRoutes);
 
-
+// =====================
+// API ROUTES FIRST
+// =====================
 
 app.get('/api/home', (req, res) => {
-  res.json({ user: req.session.user });
+  res.json({ user: req.session.user || null });
 });
 
 app.get('/api/about', (req, res) => {
-  res.json({ user: req.session.user });
+  res.json({ user: req.session.user || null });
 });
 
 app.get('/api/contact', (req, res) => {
-  res.json({ user: req.session.user });
+  res.json({ user: req.session.user || null });
 });
 
 app.get('/api/thankyou', isAuthenticated, (req, res) => {
@@ -116,9 +110,7 @@ app.post('/api/process-payment', async (req, res) => {
   try {
     if (req.session.user) {
       const user = await User.findById(req.session.user._id);
-      if (!user) {
-        return res.status(404).json({ error: 'User not found.' });
-      }
+      if (!user) return res.status(404).json({ error: 'User not found.' });
 
       user.bookings.push({
         hotelName: hotelName || 'Default Hotel',
@@ -141,7 +133,7 @@ app.get('/api/dashboard', isAuthenticated, async (req, res) => {
   try {
     const user = await User.findById(req.session.user._id).lean();
     res.json({ user });
-  } catch (error) {
+  } catch {
     res.status(500).json({ error: 'Error loading dashboard.' });
   }
 });
@@ -155,31 +147,31 @@ app.post('/api/cancel-booking', isAuthenticated, async (req, res) => {
 
   try {
     const user = await User.findById(req.session.user._id);
-    console.log(`Cancelling booking at index ${bookingIndex} for user ${user.email}`);
     if (user && user.bookings && user.bookings.length > bookingIndex) {
       user.bookings.splice(bookingIndex, 1);
       user.markModified('bookings');
       await user.save();
-      console.log('Booking successfully removed and user saved.');
-    } else {
-      console.warn('Booking index out of bounds or user/bookings not found.');
     }
     res.json({ success: true, redirect: '/dashboard' });
-  } catch (error) {
-    console.error('Error cancelling booking:', error);
+  } catch {
     res.status(500).json({ error: 'Could not cancel booking.' });
   }
 });
 
-/* app.use((req, res) => {
-  const indexFile = path.join(__dirname, 'client', 'dist', 'index.html');
-  res.sendFile(indexFile, (err) => {
-    if (err) {
-      res.status(200).send('Hotel Link API running. In dev mode, use http://localhost:5173');
-    }
-  });
+
+// =====================
+// AUTH ROUTES AFTER API
+// =====================
+app.use('/', authRoutes);
+
+
+// =====================
+// SAFETY FALLBACK
+// =====================
+app.use((req, res) => {
+  res.status(404).json({ error: 'Route not found' });
 });
-*/
+
 
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);

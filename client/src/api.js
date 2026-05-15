@@ -1,4 +1,4 @@
-const API = "https://hotel-link-final-evaluation.onrender.com";
+const API = import.meta.env.VITE_API_URL;
 
 export const apiFetch = (path, options = {}) => {
   return fetch(`${API}${path}`, {

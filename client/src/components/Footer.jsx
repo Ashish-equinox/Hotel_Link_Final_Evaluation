@@ -53,7 +53,7 @@ const Footer = () => {
           <div>
             <h3 className="text-xs font-black uppercase tracking-[0.3em] text-indigo-500 mb-8">Support</h3>
             <ul className="space-y-4">
-              {['Help Center', 'Safety Information', 'Cancellation Options', 'Our COVID-19 Response', 'Report a Concern'].map(item => (
+              {['Help Center', 'Safety Information', 'Cancellation Options', 'Report a Concern'].map(item => (
                 <li key={item}>
                   <a href={`#${item.toLowerCase().replace(' ', '')}`} className="text-secondary font-bold hover:text-content transition-colors">
                     {item}

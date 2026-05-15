@@ -59,10 +59,17 @@ app.use(cors({
   credentials: true
 }));
 
+app.set('trust proxy', 1);
+
 app.use(session({
-  secret: 'secret-key',
+  secret: process.env.SESSION_SECRET || 'secret-key',
   resave: false,
   saveUninitialized: false,
+  cookie: {
+    secure: true,
+    sameSite: 'none',
+    httpOnly: true,
+  },
 }));
 
 app.use(morgan('dev'));

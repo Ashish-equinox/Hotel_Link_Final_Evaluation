@@ -4,7 +4,7 @@ async function createTransport() {
   return nodemailer.createTransport({
     service: "gmail",
     auth: {
-      user: "mitrachirayu@gmail.com",
+      user: "ashishraj9542@gmail.com",
       pass: "gupf nvyh jexv kwke",
     },
   });
@@ -14,7 +14,7 @@ async function sendmail(to, subject, html) {
   try {
     const transporter = await createTransport();
     let mailOptions = {
-      from: "mitrachirayu@gmail.com",
+      from: "ashishraj9542@gmail.com",
       to: to,
       subject: subject,
       html: html,

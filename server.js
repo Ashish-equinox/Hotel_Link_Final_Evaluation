@@ -54,7 +54,6 @@ app.use(
   })
 );
 
-/* ===== FIXED CORS ===== */
 app.use(cors({
   origin: "https://hotel-link-final-evaluation.vercel.app",
   credentials: true
@@ -75,11 +74,6 @@ app.use((req, res, next) => {
   res.locals.user = req.session.user || null;
   next();
 });
-
-
-// =====================
-// API ROUTES FIRST
-// =====================
 
 app.get('/api/home', (req, res) => {
   res.json({ user: req.session.user || null });
@@ -166,20 +160,11 @@ app.post('/api/cancel-booking', isAuthenticated, async (req, res) => {
   }
 });
 
-
-// =====================
-// AUTH ROUTES AFTER API
-// =====================
 app.use('/', authRoutes);
 
-
-// =====================
-// SAFETY FALLBACK
-// =====================
 app.use((req, res) => {
   res.status(404).json({ error: 'Route not found' });
 });
-
 
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);

@@ -60,7 +60,7 @@ const About = ({ user, handleLogout }) => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-10 px-4">
             {[
               { name: 'Gunpreet Singh', role: 'Founder & CEO', desc: 'Hospitality veteran with a soul for service.', img: '/images/gunpreet.jpg' },
-              { name: 'Ashish Raj', role: 'CTO', desc: 'Tech innovator shaping the future of travel.', img: '/images/Ashish.jpg' },
+              { name: 'Ashish Raj', role: 'CTO', desc: 'Tech innovator shaping the future of travel.', img: '/images/Ashish.jpeg' },
               { name: 'Chirayu Mitra', role: 'Partnerships', desc: 'Building bridges to luxury around the globe.', img: '/images/Chirayu.jpg' }
             ].map((member, i) => (
               <div key={member.name} className="group glass p-8 rounded-[2.5rem] hover:-translate-y-2 transition-all duration-300 text-center">

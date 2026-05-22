@@ -1,6 +1,6 @@
 # Hotel Link
 
-A full stack hotel booking platform built using the MERN stack with a modular backend architecture inspired by microservices.
+A full stack hotel booking platform built using the MERN stack with a modular backend architecture inspired by modularity.
 
 ---
 
@@ -14,7 +14,7 @@ Users also face:
 - Limited scalability
 - Hard-to-maintain backend systems
 
-Hotel Link was created to solve these issues by building a scalable and modular hotel booking platform using the MERN stack while exploring backend structuring concepts similar to microservices.
+Hotel Link was created to solve these issues by building a scalable and modular hotel booking platform using the MERN stack while exploring backend structuring concepts.
 
 ---
 
@@ -24,7 +24,6 @@ The main motivation behind this project was to:
 
 - Build a real-world MERN stack project
 - Understand scalable backend architecture
-- Explore microservice-inspired system design
 - Improve frontend and backend integration skills
 - Learn production-level API structuring
 - Gain practical experience with authentication, payments, and bookings

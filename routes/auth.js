@@ -248,14 +248,14 @@ router.post('/api/contact', async (req, res) => {
   const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
-      user: 'mitrachirayu@gmail.com',
+      user: 'ashishraj9542@gmail.com',
       pass: 'gupf nvyh jexv kwke'
     }
   });
 
   const mailOptions = {
     from: email,
-    to: 'mitrachirayu@gmail.com',
+    to: 'ashishraj9542@gmail.com',
     subject: `Hotel Feedback from ${name}`,
     text: `Name: ${name}\nEmail: ${email}\nMessage:\n${message}`
   };
